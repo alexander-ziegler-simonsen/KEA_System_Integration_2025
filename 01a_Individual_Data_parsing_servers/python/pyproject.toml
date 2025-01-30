@@ -1,0 +1,18 @@
+[project]
+name = "file-parser"
+version = "0.1.0"
+description = "this package will parse 5 file types (text, xml, csv, json, yaml)"
+authors = [
+    {name = "Alexander Ziegler",email = "29373163+alexander-ziegler-simonsen@users.noreply.github.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = "3.13.1"
+dependencies = [
+    "numpy (>=2.2.2,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

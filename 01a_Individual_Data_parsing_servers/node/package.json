@@ -1,0 +1,18 @@
+{
+  "name": "file-parser",
+  "version": "1.0.0",
+  "description": "a file parser that can parse 5 types of files (text, csv, json, xml, yaml)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parser",
+    "csv",
+    "json",
+    "xml",
+    "yaml"
+  ],
+  "author": "Alexander Ziegler",
+  "license": "MIT"
+}

@@ -1,6 +1,6 @@
 {
   "name": "file-parser",
-  "type": "commonjs",
+  "type": "module",
   "version": "1.0.0",
   "description": "a file parser that can parse 5 types of files (text, csv, json, xml, yaml)",
   "main": "index.js",

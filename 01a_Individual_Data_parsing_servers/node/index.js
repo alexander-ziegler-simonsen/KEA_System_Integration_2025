@@ -1,6 +1,8 @@
-const fs = require('node:fs');
+// https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs 
+// click on "MJS"
+import fs from "fs";
 
-// XML - parsering here 
+// XML - parsering here
 
 import { XMLValidator } from 'fast-xml-parser';
 

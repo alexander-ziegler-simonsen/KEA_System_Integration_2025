@@ -4,17 +4,17 @@ import fs from "fs";
 
 // XML - parsering here
 
-import { XMLValidator } from 'fast-xml-parser';
+import { XMLValidator , XMLParser } from 'fast-xml-parser';
 
 // read the content of the file
-const xmlFileRawData = "";
+let xmlFileRawData = "";
 
 fs.readFile('./data/me.xml', 'utf8', (err, rawData) => {
     if (err) throw err;
-    console.log(err);
+    console.log("fs.readfile,error:",err);
     
-    console.log(rawData);
-    // xmlFileRawData = rawData;
+    console.log("fs.readfile",rawData);
+    xmlFileRawData = rawData;
 })
 
 const dataXmlCheck = XMLValidator.validate(xmlFileRawData);
@@ -25,5 +25,10 @@ if (dataXmlCheck === true) {
 if (dataXmlCheck.err) {
     console.log('xml is invalid because of - ' + dataXmlCheck.err.msg);
 }
+
+const parser = new XMLParser();
+
+let dataAsJson = parser.parse(xmlFileRawData);
+console.log("azs", dataAsJson)
 
 // end of - XML - parsering here 

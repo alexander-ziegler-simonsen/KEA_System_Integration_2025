@@ -4,31 +4,41 @@ import fs from "fs";
 
 // XML - parsering here
 
-import { XMLValidator , XMLParser } from 'fast-xml-parser';
+import { XMLValidator , XMLParser, XMLBuilder } from 'fast-xml-parser';
 
-// read the content of the file
-let xmlFileRawData = "";
+async function readXmlFile(fullFilePath) {
+    try{
+        fs.readFile(fullFilePath, 'utf8', (err, data) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log("data", data);
 
-fs.readFile('./data/me.xml', 'utf8', (err, rawData) => {
-    if (err) throw err;
-    console.log("fs.readfile,error:",err);
-    
-    console.log("fs.readfile",rawData);
-    xmlFileRawData = rawData;
-})
+            // fix this shit later, this is just so fucking bad code
 
-const dataXmlCheck = XMLValidator.validate(xmlFileRawData);
+            parsingXml(data);
 
-if (dataXmlCheck === true) {
-    console.log('xml file is valid',  dataXmlCheck);
+            return data.toString();
+          });
+    } catch(error) {
+        console.error("error", error);
+    }
 }
-if (dataXmlCheck.err) {
-    console.log('xml is invalid because of - ' + dataXmlCheck.err.msg);
+
+async function parsingXml(input) {
+    console.log("input", input);
+      const parser = new XMLParser();
+
+      let jObj = parser.parse(input);
+
+      const builder = new XMLBuilder();
+      //const xmlContent = builder.build.apply(jObj);
+
+      console.log(jObj);
+
+      return jObj;
 }
+// console.log(parsingXml(readFile('./data/me.xml')));
+let output = await readXmlFile('./data/me.xml');
 
-const parser = new XMLParser();
-
-let dataAsJson = parser.parse(xmlFileRawData);
-console.log("azs", dataAsJson)
-
-// end of - XML - parsering here 

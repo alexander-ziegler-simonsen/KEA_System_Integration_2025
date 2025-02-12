@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<me>
+<note>
     <name>Kim</name>
-    <age>100</name>
+    <age>100</age>
     <hobbies>
         <hobby>coding</hobby>
         <hobby>sleeping</hobby>
         <hobby>eating</hobby>
     </hobbies>
-</me>
+</note>

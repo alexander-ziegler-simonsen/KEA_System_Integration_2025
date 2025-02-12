@@ -13,7 +13,7 @@ async function readXmlFile(fullFilePath) {
               console.error(err);
               return;
             }
-            console.log("data", data);
+            // console.log("data", data);
 
             // fix this shit later, this is just so fucking bad code
 
@@ -39,6 +39,35 @@ async function parsingXml(input) {
 
       return jObj;
 }
-// console.log(parsingXml(readFile('./data/me.xml')));
-let output = await readXmlFile('./data/me.xml');
 
+async function parsingJson(input) {
+    // test and check if it is a valid json
+    let obj = JSON.parse(input);
+    console.log(obj);
+    return obj;
+}
+
+async function readJsonFile(fullFilePath) {
+    try{
+        fs.readFile(fullFilePath, 'utf8', (err, data) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            // console.log("data", data);
+
+            // fix this shit (json) later, this is just so fucking bad code
+
+            parsingJson(data);
+
+            return data.toString();
+          });
+    } catch(error) {
+        console.error("error", error);
+    }
+}
+
+// console.log(parsingXml(readFile('./data/me.xml')));
+
+//let xmlOutput = await readXmlFile('./data/me.xml');
+let jsonOutput = await readJsonFile('./data/me.json');

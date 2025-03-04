@@ -1,0 +1,68 @@
+[
+    {
+      "user_id": "USER123",
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "address": {
+        "street": "123 Main St",
+        "city": "Springfield",
+        "state": "IL",
+        "zip": "62701",
+        "country": "USA"
+      },
+      "phone": "+1 555-123-4567"
+    },
+    {
+      "user_id": "USER456",
+      "name": "Jane Smith",
+      "email": "janesmith@example.com",
+      "address": {
+        "street": "456 Elm St",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60601",
+        "country": "USA"
+      },
+      "phone": "+1 555-234-5678"
+    },
+    {
+      "user_id": "USER789",
+      "name": "Michael Brown",
+      "email": "michaelbrown@example.com",
+      "address": {
+        "street": "789 Oak St",
+        "city": "Peoria",
+        "state": "IL",
+        "zip": "61602",
+        "country": "USA"
+      },
+      "phone": "+1 555-345-6789"
+    },
+    {
+      "user_id": "USER321",
+      "name": "Emily White",
+      "email": "emilywhite@example.com",
+      "address": {
+        "street": "321 Pine St",
+        "city": "Naperville",
+        "state": "IL",
+        "zip": "60563",
+        "country": "USA"
+      },
+      "phone": "+1 555-456-7890"
+    },
+    {
+      "user_id": "USER654",
+      "name": "David Green",
+      "email": "davidgreen@example.com",
+      "address": {
+        "street": "654 Birch St",
+        "city": "Aurora",
+        "state": "IL",
+        "zip": "60505",
+        "country": "USA"
+      },
+      "phone": "+1 555-567-8901"
+    }
+  ]
+  

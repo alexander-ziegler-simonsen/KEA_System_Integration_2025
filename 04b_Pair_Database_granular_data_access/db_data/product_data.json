@@ -1,0 +1,93 @@
+[
+    {
+      "name": "Wireless Mouse",
+      "description": "A comfortable wireless mouse with ergonomic design and long-lasting battery.",
+      "price": 25.99,
+      "category": "Electronics",
+      "stock": 150,
+      "available": true,
+      "ean": "1234567890123"
+    },
+    {
+      "name": "Bluetooth Headphones",
+      "description": "Noise-cancelling Bluetooth headphones with high-quality sound.",
+      "price": 89.99,
+      "category": "Electronics",
+      "stock": 75,
+      "available": true,
+      "ean": "2345678901234"
+    },
+    {
+      "name": "Smartphone Case",
+      "description": "A durable and stylish case to protect your smartphone from scratches and drops.",
+      "price": 12.49,
+      "category": "Accessories",
+      "stock": 200,
+      "available": true,
+      "ean": "3456789012345"
+    },
+    {
+      "name": "LED Desk Lamp",
+      "description": "An adjustable LED desk lamp with dimming and color temperature settings.",
+      "price": 34.99,
+      "category": "Home & Office",
+      "stock": 50,
+      "available": true,
+      "ean": "4567890123456"
+    },
+    {
+      "name": "Coffee Maker",
+      "description": "A sleek and modern coffee maker with a programmable timer and brew strength control.",
+      "price": 59.99,
+      "category": "Appliances",
+      "stock": 30,
+      "available": true,
+      "ean": "5678901234567"
+    },
+    {
+      "name": "Electric Kettle",
+      "description": "A fast-boiling electric kettle with an automatic shut-off feature.",
+      "price": 24.99,
+      "category": "Appliances",
+      "stock": 40,
+      "available": true,
+      "ean": "6789012345678"
+    },
+    {
+      "name": "Laptop Backpack",
+      "description": "A spacious and stylish laptop backpack with multiple compartments for storage.",
+      "price": 42.99,
+      "category": "Accessories",
+      "stock": 120,
+      "available": true,
+      "ean": "7890123456789"
+    },
+    {
+      "name": "4K TV",
+      "description": "A 55-inch 4K Ultra HD television with vibrant colors and enhanced picture quality.",
+      "price": 499.99,
+      "category": "Electronics",
+      "stock": 0,
+      "available": false,
+      "ean": "8901234567890"
+    },
+    {
+      "name": "Gaming Chair",
+      "description": "Ergonomic gaming chair with adjustable height and lumbar support for comfort.",
+      "price": 149.99,
+      "category": "Furniture",
+      "stock": 35,
+      "available": true,
+      "ean": "9012345678901"
+    },
+    {
+      "name": "Water Bottle",
+      "description": "A stainless steel water bottle with insulation to keep drinks hot or cold for hours.",
+      "price": 19.99,
+      "category": "Accessories",
+      "stock": 300,
+      "available": true,
+      "ean": "0123456789012"
+    }
+  ]
+  

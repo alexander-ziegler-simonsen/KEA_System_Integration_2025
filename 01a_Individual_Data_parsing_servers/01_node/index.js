@@ -125,7 +125,7 @@ async function parsingJson(input) {
 // xml 
 let xmlData = await readXmlFile("./data/me.xml");
 let xmlParsed = await parsingXml(xmlData);
-console.log("xmlParsed",xmlParsed["note"]); // TODO - fix this shit
+console.log("xmlParsed",xmlParsed["note"]); // TODO - fix this bad code
 console.log("---------------------------------------------------------");
 
 // json

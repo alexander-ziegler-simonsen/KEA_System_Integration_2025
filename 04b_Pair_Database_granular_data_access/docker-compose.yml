@@ -8,7 +8,8 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mongodata:/data/db
+      - C:/dockerLocalData:/data/db
+      # - mongodata:/data/db
 volumes:
   mongodata:
     driver: local

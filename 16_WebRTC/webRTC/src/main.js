@@ -6,16 +6,15 @@ let peerConnection;
 
 const servers = {
   iceServers: [
-    {
-      urls: ['stun:stun1.l.google.com:19302'],
-    }
+      {
+          urls: ['stun:stun1.l.google.com:19302'],
+      }
   ]
-}
+};
 
 async function init() {
-  localStream = await navigator.mediaDevices.getDisplayMedia({video: true, audio: false});
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   document.getElementById("localVideo").srcObject = localStream;
-
 }
 
 async function createPeerConnection(sdpOfferTextAreaId) {
@@ -26,9 +25,6 @@ async function createPeerConnection(sdpOfferTextAreaId) {
 
 
   localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
-
-    //localStream.getTracks();
-    console.log("r", localStream.getTracks());
 
   // listen to remote tracks from the peer
   peerConnection.ontrack = (event) => {
@@ -43,39 +39,36 @@ async function createPeerConnection(sdpOfferTextAreaId) {
 
 }
 
-
-async function  createOffer() {
-  if(!localStream)
-  {
-    return alert("local stream is not ready");
+async function createOffer() {
+  if (!localStream) {
+    return alert("Local stream is not ready");
   }
 
   const offer = await createPeerConnection("sdpOfferTextArea");
 
-  // tells webRTC that a peer wants to start a connection which trigger the ICE candidate gathering
+  // tells WebRTC that a peer wants to start a connection which triggers the ICE candidate gathering for itself
   await peerConnection.setLocalDescription(offer);
+
 }
 
-async function createAnswser() {
-  await createPeerConnection("sdpAnswerTextArea");
+async function createAnswer() {
+    await createPeerConnection("sdpAnswerTextArea");
 
-  let offer = document.getElementById("sdpAnswerTextArea").value;
+    let offer = document.getElementById("sdpOfferTextArea").value;
+    if (!offer) return alert("Offer is required")
+    offer = JSON.parse(offer);
 
-  if(!offer) return alert("offer is required");
-  offer = JSON.parse(offer);
+    await peerConnection.setRemoteDescription(offer);
 
-  await peerConnection.setRemoteDescription(offer);
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
 
-  // here we call ourself .... inside the function ... endless loop ?
-  const answer = await peerConnection.createAnswser();
-  await peerConnection.setLocalDescription(answer);
-
-  document.getElementById("sdpAnswerTextArea").textContent = JSON.stringify(answer);
+    document.getElementById("sdpAnswerTextArea").textContent = JSON.stringify(answer);
 }
 
-async function addAnswser() {
+async function addAnswer() {
   let answer = document.getElementById("sdpAnswerTextArea").value;
-  if(!answer) return alert("answer is required");
+  if (!answer) return alert("Answer is required");
   answer = JSON.parse(answer);
 
   if (!peerConnection.currentRemoteDescription) {
@@ -85,6 +78,5 @@ async function addAnswser() {
 
 init();
 document.getElementById("createOfferButton").addEventListener("click", createOffer);
-document.getElementById("createAnswerButton").addEventListener("click", createAnswser);
-document.getElementById("addAnswerButton").addEventListener("click", addAnswser);
-
+document.getElementById("createAnswerButton").addEventListener("click", createAnswer);
+document.getElementById("addAnswerButton").addEventListener("click", addAnswer);

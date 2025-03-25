@@ -1,142 +1,172 @@
 // https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs 
 // click on "MJS"
+
+// for file reading
 import fs from "fs";
 
-// XML - parsering here
+// ctrl + left click (to see documentation)
+//import * as CSV from "fast-csv";
+import * as CSV from "@fast-csv/parse";
+import { parse as csvParse } from "fast-csv";
 
-import { XMLValidator , XMLParser, XMLBuilder } from 'fast-xml-parser';
-import Papa from 'papaparse';
+import { parse as newCsvParse } from "csv-parse";
 
-async function readXmlFile(fullFilePath) {
+// ctrl + left click (to see documentation)
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser"; 
 
+// ctrl + left click (to see documentation)
+import YAML from "yaml";
+
+// import { XMLValidator , XMLParser, XMLBuilder } from 'fast-xml-parser';
+// import Papa from 'papaparse';
+
+async function parseXml(fullFilePath) {
     return new Promise((resolve, reject) => {
         try{
+            // read from file
             fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                  console.error(err);
-                  reject(err);
+                if(err) {
+                    console.error(err);
+                    reject(err);
                 }
-                // console.log("data", data);
-                // TODO
-                resolve(data.toString());
-              });
-        } catch(error) {
+                let tempXmlParser = new XMLParser();
+
+
+                // TODO - parseXml - fix this
+                // the list of hobby is just a array and does not get converted to a list of hobby
+
+                resolve(tempXmlParser.parse(data));
+            })
+        }
+        catch (error) {
+            console.log("something went wrong in 'parseXml'")
             console.error("error", error);
         }
     })
-}
+} 
 
-async function readCsvFile(fullFilePath) {
-    // promise is awaitable
-    // is only done when "resolve" or "reject" are runned
+
+async function parseJson(fullFilePath) {
     return new Promise((resolve, reject) => {
         try{
+            // read from file
             fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                  console.error(err);
-                  reject(err);
+                if(err) {
+                    console.error(err);
+                    reject(err);
                 }
-                //console.log("data", data);
-                resolve(data.toString());
-              });
-        } catch(error) {
+
+                let obj = JSON.parse(data);
+                // console.log(obj);
+                
+                resolve(obj);
+            })
+        }
+        catch (error) {
+            console.log("something went wrong in 'parseJson'")
             console.error("error", error);
-            reject(error);
         }
     })
-}
+} 
 
-async function readJsonFile(fullFilePath) {
+async function parseYaml(fullFilePath) {
     return new Promise((resolve, reject) => {
         try{
+            // read from file
             fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                  console.error(err);
-                  reject(err);
+                if(err) {
+                    console.error(err);
+                    reject(err);
                 }
-                // console.log("data", data);
-    
-                resolve(data.toString());
-              });
-        } catch(error) {
-            console.error("readJsonFile error", error);
-            reject(error);
+
+                let yamlParser = YAML.parse(data);
+
+                resolve(yamlParser);
+            })
+        }
+        catch (error) {
+            console.log("something went wrong in 'parseYaml'")
+            console.error("error", error);
         }
     })
-}
+} 
 
-async function parsingCsv(input) {
+async function parseTxt(fullFilePath) {
     return new Promise((resolve, reject) => {
-        try {
-            let output = Papa.parse(input, (e) => {
-                //console.log("e", e);
-            });
-            console.log("csvParsing", output);
+        try{
+            // read from file
+            fs.readFile(fullFilePath, 'utf8', (err, data) => {
+                if(err) {
+                    console.error(err);
+                    reject(err);
+                }
 
-            // convert it to json data
-            // TODO - make this cleaner
-            let raw = output.data;
+                resolve(data.toString());
+            })
+        }
+        catch (error) {
+            console.log("something went wrong in 'parseXml'")
+            console.error("error", error);
+        }
+    })
+} 
+
+async function parseCsv(fullFilePath) {
+    return new Promise((resolve, reject) => {
+        try{       
             
-            resolve(raw);
-        } catch (error) {
-            console.log("parsingCsv error",error);
+                        
+            // the list of objects
+            let tempOutput = [];
+
+            // reading stream
+            fs.createReadStream(fullFilePath, {encoding: "UTF-8"}) 
+            .pipe(CSV.parse({headers: true, quote: '"'}))
+            .on('error', error => console.log(error))
+            .on('data', data =>{
+                tempOutput.push(data); 
+            })
+            .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+            
+            // TODO - parse csv - fix this
+            // the array is not handled right, since they just get saved as string 
+
+            resolve(tempOutput); 
+            
+        }
+        catch (error) {
+            console.log("something went wrong in 'parseCsv'")
+            console.error("error", error);
             reject(error);
         }
     })
-}
+} 
 
-async function parsingXml(input) {
-    return new Promise((resolve, reject) => {
-        try {
-            console.log("input", input);
-            const parser = new XMLParser();
-      
-            let jObj = parser.parse(input);
-      
-            const builder = new XMLBuilder();
-            //const xmlContent = builder.build.apply(jObj);
-      
-            console.log(jObj);
-      
-            resolve(jObj);
-          }
-          catch (error) {
-              console.error("parsingXml error",error);
-              reject(error);
-          }
-    })
-}
+let xmlObj = await parseXml("./data/me.xml");
+let jsonObj = await parseJson("./data/me.json");
+let csvObj = await parseCsv("./data/me.csv");
+let yamlObj = await parseYaml("./data/me.yaml");
+let txtObj = await parseTxt("./data/me.txt");
 
-async function parsingJson(input) {
-    return new Promise((resolve, reject) => {
-        try{
-            // test and check if it is a valid json
-            let obj = JSON.parse(input);
-            console.log(obj);
-            resolve(obj);
-        }catch(error) {
-            console.log("parsingJson error",error);
-            reject(error);
-        }
-    })
-}
+console.log("xmlObj note ,", "type:", typeof(xmlObj), '\n', xmlObj["note"]);
+console.log("hobbies:", xmlObj["note"]["hobbies"]);
+console.log("------------------------------------------");
 
+console.log("jsonObj", "type:", typeof(jsonObj), '\n', jsonObj);
+console.log("------------------------------------------");
 
-// xml 
-let xmlData = await readXmlFile("./data/me.xml");
-let xmlParsed = await parsingXml(xmlData);
-console.log("xmlParsed",xmlParsed["note"]); // TODO - fix this bad code
-console.log("---------------------------------------------------------");
+console.log("csvObj", ", type:", typeof(csvObj), '\n', csvObj);
+console.log("csvObj just hobbies:", csvObj[0]["hobbies"]);
+console.log("csvObj just hobbies:", csvObj[1]["hobbies"]);
+console.log("------------------------------------------");
 
-// json
-let jsonData = await readJsonFile("./data/me.json");
-let jsonParsed = await parsingJson(jsonData);
-console.log("jsonParsed", jsonParsed);
-console.log("---------------------------------------------------------");
+console.log("yamlObj", "type:", typeof(yamlObj), '\n', yamlObj);
+console.log("just hobbies:", yamlObj["hobbies"])
+console.log("------------------------------------------");
 
-// csv
-let csvData = await readCsvFile('./data/me.csv');
-let csvParsed = await parsingCsv(csvData);
-console.log("csvParsed", csvParsed); 
-console.log("---------------------------------------------------------");
+// TODO - make this one
+
+console.log("txtObj", "type:", typeof(txtObj), 
+console.log(txtObj.toString()));
+console.log("------------------------------------------");
 

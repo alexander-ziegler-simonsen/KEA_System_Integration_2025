@@ -1,2 +1,3 @@
 name,age,hobbies
-Kim, 100, "[coding, sleeping, eating]"
+"Kim", 100, "['coding', 'sleeping', 'eating']"
+"Alex", 80, "['cooking', 'shopping']"

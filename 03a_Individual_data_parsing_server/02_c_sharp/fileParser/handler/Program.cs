@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using YamlDotNet.Core;
+using System.Xml.Serialization;
+using Csv;
+using Newtonsoft.Json;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 string GetTextFromFIle(string localFolderPath) 
 {
@@ -25,15 +26,40 @@ string GetTextFromFIle(string localFolderPath)
 Person ParseXml(string input)
 {
     Console.WriteLine("parseXml");
-    return new Person("2", 2, ["s"]);
+    // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer.deserialize?view=net-8.0
+    // root tag "note" is giving problems, so found these
+    // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlrootattribute?view=net-8.0
+    // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlrootattribute.-ctor?view=net-8.0
+    
+    
+    XmlSerializer Serializer = new XmlSerializer(typeof(Person), new XmlRootAttribute("note"));
+    TextReader Reader = new StringReader(input);
+    
+    // TODO - fix array "hobbies" not being read right
+    
+    var output = (Person)Serializer.Deserialize(Reader);
+    
+    return output;
 }
 
 Person Parsejson(string input)
 {
-    Console.WriteLine("parseJson");
-    return new Person("2", 2, ["s"]);
+    // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/how-to
+    // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization 
+    // var person = JsonSerializer.Deserialize<Person>(input); // didn't work
+    
+    //var personJson = JsonConvert.SerializeObject(person)
+    
+    // https://www.nuget.org/packages/newtonsoft.json/
+    
+    // serialisation
+    // var personJson = JsonConvert.SerializeObject(PersonObj);
+    
+    // Deserialise
+    var person = JsonConvert.DeserializeObject<Person>(input);
+    
+    return person;
 }
-
 
 Person ParseYaml(string input)
 {
@@ -51,23 +77,35 @@ Person ParseYaml(string input)
     return p;
 }
 
+Person ParseCsv(string input)
+{
+    // https://github.com/stevehansen/csv/
+    
+    // it does it me here, that I need to be able to handle more than one "person" per file
+    // TODO - make every parser able to handle multiple "person" objects
+
+    List<Person> people = new List<Person>();
+
+    foreach (var line in CsvReader.ReadFromText(input))
+    {
+        Person tempP = new Person(line["name"], Convert.ToInt32(line["age"]), [line["hobbies"]]);
+        people.Add(tempP);
+    }
+
+    return people[0];
+}
+
 Person ParseTxt(string input)
 {
     Console.WriteLine("parseTxt");
     return new Person("2", 2, ["s"]);
 }
 
-Person ParseJson(string input)
-{
-    Console.WriteLine("parseJson");
-    return new Person("2", 2, ["s"]);
-}
-
-string csvText = GetTextFromFIle("/data/me.csv");
-string xmlText = GetTextFromFIle("/data/me.xml");
+string csvText = GetTextFromFIle("/data/me.csv"); // done
+string xmlText = GetTextFromFIle("/data/me.xml"); // somewhat done - hobbies bug
 string txtText = GetTextFromFIle("/data/me.txt");
-string jsonText = GetTextFromFIle("/data/me.json");
-string yamlText = GetTextFromFIle("/data/me.yaml");
+string jsonText = GetTextFromFIle("/data/me.json"); // done
+string yamlText = GetTextFromFIle("/data/me.yaml"); // done
 
 
 
@@ -75,22 +113,26 @@ string yamlText = GetTextFromFIle("/data/me.yaml");
 // Console.WriteLine("txtText");
 // Console.WriteLine(ParseTxt(txtText));
 
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("xmlText");
-// Console.WriteLine(xmlText);
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("xmlText");
+Person tempXmlPerson = ParseXml(xmlText);
+Console.WriteLine(tempXmlPerson.printPerson());
 
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("jsonText");
-// Console.WriteLine(jsonText);
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("jsonText");
+Person tempJsonPerson = Parsejson(jsonText);
+Console.WriteLine(tempJsonPerson.printPerson());
 
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("csvText");
-// Console.WriteLine(csvText);
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("csvText");
+Person tempCsvPerson = ParseCsv(csvText);
+Console.WriteLine(tempCsvPerson.printPerson());
 
 Console.WriteLine("-----------------------------------------");
 Console.WriteLine("yamlText");
-Person tempP = ParseYaml(yamlText);
-Console.WriteLine(tempP.printPerson());
+Person tempYamlPerson = ParseYaml(yamlText);
+Console.WriteLine(tempYamlPerson.printPerson());
+
 
 public class Person
 {

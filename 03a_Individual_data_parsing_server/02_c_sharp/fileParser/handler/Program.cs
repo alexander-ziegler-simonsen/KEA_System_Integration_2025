@@ -85,7 +85,7 @@ Person ParseCsv(string input)
 
     foreach (var line in CsvReader.ReadFromText(input))
     {
-        Person tempP = new Person(line["name"], Convert.ToInt32(line["age"]), [line["hobbies"]]);
+        Person tempP = new Person(line["name"], Convert.ToInt32(line["age"]), line["hobbies"].Split(";"));
         people.Add(tempP);
     }
 
@@ -181,9 +181,13 @@ public class Person
     public string printPerson()
     {
         string allHobbies = "[";
+        int counter = 0;
         foreach (string hobby in hobbies)
         {
             allHobbies += "'" + hobby + "'";
+            counter++;
+            if(hobbies.Length > counter)
+                allHobbies += ", ";
         }
 
         allHobbies += "]";

@@ -5,17 +5,13 @@ using Csv;
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
-string GetTextFromFIle(string localFolderPath) 
+string ReadFromFile(string localFolderPath) 
 {
-    // we need the project root path, since the "program.cs" gets run inside "bin/denug/net8-0/"
+    // we need the project root path, since the "program.cs" gets run inside "./bin/denug/net8-0/"
     string workingDirectory = Environment.CurrentDirectory;
-
-    //Console.WriteLine(workingDirectory);
 
     // this could be written better, but it works for now
     string currentRoot = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-
-    //Console.WriteLine(currentRoot);
     
     TextReader read = new StreamReader(currentRoot + localFolderPath);
     string text = read.ReadToEnd();
@@ -25,7 +21,6 @@ string GetTextFromFIle(string localFolderPath)
 
 Person ParseXml(string input)
 {
-    Console.WriteLine("parseXml");
     // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlserializer.deserialize?view=net-8.0
     // root tag "note" is giving problems, so found these
     // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlrootattribute?view=net-8.0
@@ -125,11 +120,11 @@ Person ParseTxt(string input)
     return output;
 }
 
-string csvText = GetTextFromFIle("/data/me.csv"); // done
-string xmlText = GetTextFromFIle("/data/me.xml"); // done
-string txtText = GetTextFromFIle("/data/me.txt"); // done
-string jsonText = GetTextFromFIle("/data/me.json"); // done
-string yamlText = GetTextFromFIle("/data/me.yaml"); // done
+string csvText = ReadFromFile("/data/me.csv"); // done
+string xmlText = ReadFromFile("/data/me.xml"); // done
+string txtText = ReadFromFile("/data/me.txt"); // done
+string jsonText = ReadFromFile("/data/me.json"); // done
+string yamlText = ReadFromFile("/data/me.yaml"); // done
 
 
 
@@ -143,20 +138,20 @@ Console.WriteLine("xmlText");
 Person tempXmlPerson = ParseXml(xmlText);
 Console.WriteLine(tempXmlPerson.printPerson());
 
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("jsonText");
-// Person tempJsonPerson = Parsejson(jsonText);
-// Console.WriteLine(tempJsonPerson.printPerson());
-//
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("csvText");
-// Person tempCsvPerson = ParseCsv(csvText);
-// Console.WriteLine(tempCsvPerson.printPerson());
-//
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("yamlText");
-// Person tempYamlPerson = ParseYaml(yamlText);
-// Console.WriteLine(tempYamlPerson.printPerson());
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("jsonText");
+Person tempJsonPerson = Parsejson(jsonText);
+Console.WriteLine(tempJsonPerson.printPerson());
+
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("csvText");
+Person tempCsvPerson = ParseCsv(csvText);
+Console.WriteLine(tempCsvPerson.printPerson());
+
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("yamlText");
+Person tempYamlPerson = ParseYaml(yamlText);
+Console.WriteLine(tempYamlPerson.printPerson());
 
 
 public class Person

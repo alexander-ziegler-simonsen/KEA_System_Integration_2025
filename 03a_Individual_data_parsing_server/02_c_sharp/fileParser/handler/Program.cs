@@ -97,41 +97,64 @@ Person ParseCsv(string input)
 
 Person ParseTxt(string input)
 {
-    Console.WriteLine("parseTxt");
-    return new Person("2", 2, ["s"]);
+    // we have to make this our self
+    
+    // each new line from the txt file, starts with "\r\n\"
+    // here I know there is only one element in the file, so the logic will be easier to implement 
+    
+    // "name= Value"
+    // key at start, "= " , followed by "value"
+    // one key/value pair per line
+
+    
+    string[] lines = input.Split("\r\n");
+
+    //              index   split on    get value
+    string pName = lines[0].Split("= ")[1];
+    int pAge = Convert.ToInt32(lines[1].Split("= ")[1]);
+    
+    
+    string tempHobbies = lines[2].Split("= ")[1];
+    //             string array    split on .... get string array as return
+    string[] pHobbies = tempHobbies.Split(", ");
+
+    Person output = new Person(pName, pAge, pHobbies);
+    
+    return output;
 }
 
 string csvText = GetTextFromFIle("/data/me.csv"); // done
 string xmlText = GetTextFromFIle("/data/me.xml"); // somewhat done - hobbies bug
-string txtText = GetTextFromFIle("/data/me.txt");
+string txtText = GetTextFromFIle("/data/me.txt"); // done
 string jsonText = GetTextFromFIle("/data/me.json"); // done
 string yamlText = GetTextFromFIle("/data/me.yaml"); // done
 
 
 
-// Console.WriteLine("-----------------------------------------");
-// Console.WriteLine("txtText");
-// Console.WriteLine(ParseTxt(txtText));
+Console.WriteLine("-----------------------------------------");
+Console.WriteLine("txtText");
+Person tempTxtPerson = ParseTxt(txtText);
+Console.WriteLine(tempTxtPerson.printPerson());
 
 Console.WriteLine("-----------------------------------------");
 Console.WriteLine("xmlText");
 Person tempXmlPerson = ParseXml(xmlText);
 Console.WriteLine(tempXmlPerson.printPerson());
 
-Console.WriteLine("-----------------------------------------");
-Console.WriteLine("jsonText");
-Person tempJsonPerson = Parsejson(jsonText);
-Console.WriteLine(tempJsonPerson.printPerson());
-
-Console.WriteLine("-----------------------------------------");
-Console.WriteLine("csvText");
-Person tempCsvPerson = ParseCsv(csvText);
-Console.WriteLine(tempCsvPerson.printPerson());
-
-Console.WriteLine("-----------------------------------------");
-Console.WriteLine("yamlText");
-Person tempYamlPerson = ParseYaml(yamlText);
-Console.WriteLine(tempYamlPerson.printPerson());
+// Console.WriteLine("-----------------------------------------");
+// Console.WriteLine("jsonText");
+// Person tempJsonPerson = Parsejson(jsonText);
+// Console.WriteLine(tempJsonPerson.printPerson());
+//
+// Console.WriteLine("-----------------------------------------");
+// Console.WriteLine("csvText");
+// Person tempCsvPerson = ParseCsv(csvText);
+// Console.WriteLine(tempCsvPerson.printPerson());
+//
+// Console.WriteLine("-----------------------------------------");
+// Console.WriteLine("yamlText");
+// Person tempYamlPerson = ParseYaml(yamlText);
+// Console.WriteLine(tempYamlPerson.printPerson());
 
 
 public class Person
@@ -162,6 +185,6 @@ public class Person
 
         allHobbies += "]";
         
-        return name + ", " + age + ", " + allHobbies;
+        return "name: " + name + ", age: " + age + ", hobbies: " + allHobbies;
     }
 }

@@ -31,6 +31,8 @@ Person ParseXml(string input)
     // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlrootattribute?view=net-8.0
     // https://learn.microsoft.com/en-us/dotnet/api/system.xml.serialization.xmlrootattribute.-ctor?view=net-8.0
     
+    // typecast your xml elements in your data class - this fixed the array problem I had
+    // https://learn.microsoft.com/en-us/dotnet/standard/serialization/controlling-xml-serialization-using-attributes
     
     XmlSerializer Serializer = new XmlSerializer(typeof(Person), new XmlRootAttribute("note"));
     TextReader Reader = new StringReader(input);
@@ -124,7 +126,7 @@ Person ParseTxt(string input)
 }
 
 string csvText = GetTextFromFIle("/data/me.csv"); // done
-string xmlText = GetTextFromFIle("/data/me.xml"); // somewhat done - hobbies bug
+string xmlText = GetTextFromFIle("/data/me.xml"); // done
 string txtText = GetTextFromFIle("/data/me.txt"); // done
 string jsonText = GetTextFromFIle("/data/me.json"); // done
 string yamlText = GetTextFromFIle("/data/me.yaml"); // done
@@ -161,6 +163,12 @@ public class Person
 {
     public string name;
     public int age;
+    
+    // only needed for the xml parsing
+    
+    
+    [XmlArray("hobbies")]       // the name of the main "array" tag 
+    [XmlArrayItem("hobby")]     // the name of the "arrayItem" tag
     public string[] hobbies;
 
     public Person(string name, int age, string[] hobbies)

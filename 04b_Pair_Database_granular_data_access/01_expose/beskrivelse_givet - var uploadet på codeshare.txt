@@ -1,0 +1,137 @@
+
+Jeg har valgt at gå med mongoDB
+
+alle commands er skrevet med $ foran sig (det skal ikke kopies)
+
+------------------------ USER værdier -----------------
+user1 - 
+username: user1
+password: password1
+
+user2 - 
+username: user2
+password: password2
+
+user3 - 
+username: user3
+password: password3
+
+user4 -
+username: user4
+password: password4
+
+user5 - 
+username: user5
+password: password5
+
+user6 - 
+username: user6
+password: password6
+
+------------------------ FORBINDELSE værdier -----------------
+
+min ip adresse : XX.XX.XX.XX // removed because of git commit
+den database du har adgang til : 04b
+port : 27017
+
+mongosh - connection strings - eksempler - 
+
+$ mongosh "mongodb://ADRESS_GOES_HERE:PORT_GOES_HERE/DATABASE_NAME_GOES_HERE" --apiVersion 1 --username USERNAME_VALUE_GOES_HERE
+$ mongosh "mongodb://ADRESS_GOES_HERE:PORT_GOES_HERE/DATABASE_NAME_GOES_HERE" --username USERNAME_VALUE_GOES_HERE
+
+kan være du skal køre den sådan her
+
+$ mongosh.exe "mongodb://ADRESS_GOES_HERE:PORT_GOES_HERE/DATABASE_NAME_GOES_HERE" --apiVersion 1 --username USERNAME_VALUE_GOES_HERE
+
+-------------------------- connection strings med mongodb compass - -----------------------------------------------
+
+lokal eksempel - 
+ mongodb://USERNAME_GOES_HERE:PASSWORD_GOES_HERE@localhost:27017/
+
+forbind over internet eksempel - 
+mongodb://USERNAME_GOES_HERE:PASSWORD_GOES_HERE@ADRESS_GOES_HERE:PORT_GOES_HERE/DB_GOES_HERE
+
+---------------- software --------------------------------------------------------------------------------------
+
+jeg bruger cls programmet "mongosh" til at forbinde til min database
+https://www.mongodb.com/docs/manual/reference/method/
+https://www.mongodb.com/docs/manual/reference/method/#mongosh-methods
+
+https://www.mongodb.com/docs/mongodb-shell/ 
+https://www.mongodb.com/try/download/shell ------ download den 
+
+du behøver ikke at sætte den ind som miljø variable .
+man skal bare download den, unzip den, åbne terminal'en og gå ind i denne sti ( mongosh-2.4.2-win32-x64/bin/mongosh.exe ) og køre exe filen.
+
+---
+
+dette er hoved kommanden, som man skal bruge til at snakke med databasen
+$ mongosh "MONGODB_CLUSTER_PATH_GOES_HERE" --apiVersion 1 --username USERNAME_GOES_HERE --password PASSWORD_GOES_HERE
+
+du kan også bruge den her, hvor den vil spørger dig efterfulgt, hvad passwordet er (så gemmer man ikke sit password i command line history)
+$ mongosh "MONGODB_CLUSTER_PATH_GOES_HERE" --apiVersion 1 --username USERNAME_GOES_HERE
+
+-------------- commands -------------------------------
+
+når du er forbundet, burde du se din terminal har ændre sig til at indeholde data omkring atlas.
+
+du kan finde ud af dine muligheder med:
+  $ help
+
+prøv gerne 
+$ show databases
+
+eller
+$ show collections
+
+husk at skriv 
+$ use NAME_OF_DB
+(hvis den ikke allerede står på den rigtige)
+
+der er også noget kaldet "view" som bliver relevant
+
+--- her er nogle eksempler ---------
+
+$ show tables
+her få vi blandtandet "order"
+
+
+------ read from table --------
+$ db.order.find()
+https://www.w3schools.com/mongodb/mongodb_mongosh_find.php
+
+------ skriv en ny til table 
+
+$ db.order.insertOne(
+ {
+  skriv alt som det skal være........ skriv ikke forkert her 
+ }
+)
+https://www.w3schools.com/mongodb/mongodb_mongosh_insert.php
+
+--------------------- update 
+$ db.posts.updateOne( { title: "Post Title 1" }, { $set: { likes: 2 } } ) 
+
+https://www.w3schools.com/mongodb/mongodb_mongosh_update.php
+
+$ db.order.deleteOne(
+.....
+)
+
+--------------------- delete
+
+https://www.w3schools.com/mongodb/mongodb_mongosh_delete.php
+
+--------------------- | ting jeg ikke har sagt - overhovedet | -----------------------------
+
+
+ville anbefale dig at install mongodb compass
+den kommer med mongosh indbygget og hver command man skriver, giver forslag på hvilke commands/værdier der faktisk findes (baseret på de første bokstaver man skriver) 
+
+
+en list af commands der findes i mongoDB (deres hjemmeside er lort, da den ikke kommer med virkelige eksempler.... det helt modsatte af hvad microsoft gør)
+https://www.mongodb.com/docs/atlas/reference/custom-role-actions/
+
+
+
+// pt er det kun "expressData" som findes som gateway/gatepoint

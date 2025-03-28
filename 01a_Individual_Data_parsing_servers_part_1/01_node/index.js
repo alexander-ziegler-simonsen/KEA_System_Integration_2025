@@ -62,8 +62,8 @@ async function parseXml(input) {
             let data = tempXmlParser.parse(input);
 
 
-            const output = new Person(data["note"].name, 
-                data.note.age, 
+            const output = new Person(data["note"].name,
+                data.note.age,
                 data.note.hobbies.hobby);
             resolve(output);
         }
@@ -77,22 +77,17 @@ async function parseXml(input) {
 }
 
 
-async function parseJson(fullFilePath) {
+async function parseJson(input) {
     return new Promise((resolve, reject) => {
         try {
-            // read from file
-            fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    reject(err);
-                }
 
-                let obj = JSON.parse(data);
-                // console.log(obj);
+            let data = JSON.parse(input);
+            
+            let output = new Person(data.name, data.age, data.hobbies)
 
-                resolve(obj);
-            })
+            resolve(output);
         }
+
         catch (error) {
             console.log("something went wrong in 'parseJson'")
             console.error("error", error);
@@ -183,7 +178,8 @@ xmlPerson.displayPerson();
 
 console.log("------------------ json ------------------------");
 let jsonObj = await readFromFile("./data/me.json");
-
+const jsonPerson = await parseJson(jsonObj);
+jsonPerson.displayPerson();
 
 console.log("------------------ yaml ------------------------");
 let yamlObj = await readFromFile("./data/me.yaml");

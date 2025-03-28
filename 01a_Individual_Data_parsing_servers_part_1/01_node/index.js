@@ -2,13 +2,9 @@
 // click on "MJS"
 
 // for file reading
-import fs from "fs";
+import * as fs from "fs";
 
-// ctrl + left click (to see documentation)
-//import * as CSV from "fast-csv";
-import * as CSV from "@fast-csv/parse";
-import { parse as csvParse } from "fast-csv";
-
+// https://csv.js.org/parse/
 import { parse as newCsvParse } from "csv-parse";
 
 // ctrl + left click (to see documentation)
@@ -16,10 +12,6 @@ import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 
 // ctrl + left click (to see documentation)
 import YAML from "yaml";
-
-// import { XMLValidator , XMLParser, XMLBuilder } from 'fast-xml-parser';
-// import Papa from 'papaparse';
-
 
 class Person {
     constructor(nameInput, ageInput, hobbiesInput) {
@@ -111,27 +103,26 @@ async function parseYaml(input) {
     })
 }
 
-async function parseTxt(fullFilePath) {
+async function parseTxt(input) {
     return new Promise((resolve, reject) => {
         try {
-            // read from file
-            fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    reject(err);
-                }
-
-                resolve(data.toString());
-            })
+            let elements = input.split("\r\n");
+            let output = new Person(
+                elements[0].split("= ")[1], 
+                elements[1].split("= ")[1],
+                elements[2].split("= ")[1].split(", ")
+            );
+            resolve(output);
         }
         catch (error) {
             console.log("something went wrong in 'parseXml'")
             console.error("error", error);
+            reject(error);
         }
     })
 }
 
-async function parseCsv(fullFilePath) {
+async function parseCsv(fullPath) {
     return new Promise((resolve, reject) => {
         try {
 
@@ -139,17 +130,23 @@ async function parseCsv(fullFilePath) {
             // the list of objects
             let tempOutput = [];
 
-            // reading stream
-            fs.createReadStream(fullFilePath, { encoding: "UTF-8" })
-                .pipe(CSV.parse({ headers: true, quote: '"' }))
-                .on('error', error => console.log(error))
-                .on('data', data => {
-                    tempOutput.push(data);
-                })
-                .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+            // https://csv.js.org/parse/examples/file_interaction/
 
-            // TODO - parse csv - fix this
-            // the array is not handled right, since they just get saved as string 
+            // Parse the CSV content
+            //const records = newCsvParse(fullPath, { bom: true });
+
+            // console.log(records.info);
+            // console.log(records);
+
+            fs.createReadStream(fullPath)
+            .pipe(newCsvParse())
+            .on('data', (data) => {tempOutput.push(data)});
+
+
+            
+
+            // // TODO - parse csv - fix this
+            // // the array is not handled right, since they just get saved as string 
 
             resolve(tempOutput);
 
@@ -180,32 +177,13 @@ let yamlObj = await readFromFile("./data/me.yaml");
 const yamlPerson = await parseYaml(yamlObj);
 yamlPerson.displayPerson();
 
-console.log("------------------ csv ------------------------");
-let csvObj = await readFromFile("./data/me.csv");
+// console.log("------------------ csv ------------------------");
+// let csvObj = await readFromFile("./data/me.csv");
+// const csvPerson = await parseCsv("./data/me.csv");
+// csvPerson.displayPerson()
 
 
 console.log("------------------ txt ------------------------");
 let txtObj = await readFromFile("./data/me.txt");
-
-// console.log("xmlObj note ,", "type:", typeof(xmlObj), '\n', xmlObj["note"]);
-// console.log("hobbies:", xmlObj["note"]["hobbies"]);
-// console.log("------------------------------------------");
-
-// console.log("jsonObj", "type:", typeof(jsonObj), '\n', jsonObj);
-// console.log("------------------------------------------");
-
-// console.log("csvObj", ", type:", typeof(csvObj), '\n', csvObj);
-// console.log("csvObj just hobbies:", csvObj[0]["hobbies"]);
-// console.log("csvObj just hobbies:", csvObj[1]["hobbies"]);
-// console.log("------------------------------------------");
-
-// console.log("yamlObj", "type:", typeof(yamlObj), '\n', yamlObj);
-// console.log("just hobbies:", yamlObj["hobbies"])
-// console.log("------------------------------------------");
-
-// // TODO - make this one
-
-// console.log("txtObj", "type:", typeof(txtObj),
-// console.log(txtObj.toString()));
-// console.log("------------------------------------------");
-
+const txtPerson = await parseTxt(txtObj);
+txtPerson.displayPerson();

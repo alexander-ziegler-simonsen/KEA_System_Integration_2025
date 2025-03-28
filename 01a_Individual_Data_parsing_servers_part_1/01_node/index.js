@@ -5,8 +5,8 @@
 import * as fs from "fs";
 
 // https://csv.js.org/parse/
-import { parse as newCsvParse } from "csv-parse";
-
+// import { parse as newCsvParse } from "csv-parse";
+import csv from 'csv-parser'
 // ctrl + left click (to see documentation)
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 
@@ -108,7 +108,7 @@ async function parseTxt(input) {
         try {
             let elements = input.split("\r\n");
             let output = new Person(
-                elements[0].split("= ")[1], 
+                elements[0].split("= ")[1],
                 elements[1].split("= ")[1],
                 elements[2].split("= ")[1].split(", ")
             );
@@ -122,45 +122,30 @@ async function parseTxt(input) {
     })
 }
 
-async function parseCsv(fullPath) {
+async function parseCsv(fullPath){
     return new Promise((resolve, reject) => {
-        try {
+        const tempRows = [];
 
-
-            // the list of objects
-            let tempOutput = [];
-
-            // https://csv.js.org/parse/examples/file_interaction/
-
-            // Parse the CSV content
-            //const records = newCsvParse(fullPath, { bom: true });
-
-            // console.log(records.info);
-            // console.log(records);
-
-            fs.createReadStream(fullPath)
-            .pipe(newCsvParse())
-            .on('data', (data) => {tempOutput.push(data)});
-
-
-            
-
-            // // TODO - parse csv - fix this
-            // // the array is not handled right, since they just get saved as string 
-
-            resolve(tempOutput);
-
+        try{
+            fs.createReadStream(fullPath).pipe(
+                csv()
+            ).on('data', (row) => {
+                tempRows.push(new Person(row[1].name, row[1].age, row[1].hobbies.split(";")));
+            }).on('end', () => {
+                // TODO - fix this program, so it can handle more than one item
+                let output = tempRows[0];
+    
+                resolve(output); // super vigtigt at "resolve" er inde i denne - fs.createReadStream - event lindser
+            })
         }
-        catch (error) {
-            console.log("something went wrong in 'parseCsv'")
-            console.error("error", error);
-            reject(error);
+        catch(err) {
+            console.log("error in 'parseCsv'");
+            console.error(err);
+            reject(err);
         }
+
     })
 }
-
-
-
 
 console.log("------------------ xml ------------------------");
 let xmlObj = await readFromFile("./data/me.xml");
@@ -177,10 +162,10 @@ let yamlObj = await readFromFile("./data/me.yaml");
 const yamlPerson = await parseYaml(yamlObj);
 yamlPerson.displayPerson();
 
-// console.log("------------------ csv ------------------------");
-// let csvObj = await readFromFile("./data/me.csv");
-// const csvPerson = await parseCsv("./data/me.csv");
-// csvPerson.displayPerson()
+console.log("------------------ csv ------------------------");
+//let csvObj = await readFromFile("./data/me.csv");
+const csvPerson = await parseCsv("./data/me.csv");
+csvPerson.displayPerson()
 
 
 console.log("------------------ txt ------------------------");

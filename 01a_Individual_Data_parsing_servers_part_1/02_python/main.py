@@ -74,7 +74,16 @@ def ParseXml(input: str):
     return Person(root.find("name").text, root.find("age").text, hobbies)
 
 def ParseTxt(input: str):
-    return 0
+    print(input)
+
+    lines = input.split("\n")
+    pName = (lines[0].split("= "))
+    pAge = (lines[1].split("= "))
+    pHobbies = (lines[2].split("= "))
+    pAllHobies = pHobbies[1]
+    pAllHobies = pAllHobies.split(", ")
+
+    return Person(pName[1], pAge[1], pAllHobies)
 
 
 # xml
@@ -105,4 +114,7 @@ csvPerson: Person = ParseCsv("./data/me.csv")
 print(csvPerson.print())
 
 # txt
-#print("------------- txt parse ------------------------------")
+print("------------- txt parse ------------------------------")
+txtText = readFromFile("./data/me.txt")
+txtPerson: Person = ParseTxt(txtText)
+print(txtPerson.print())

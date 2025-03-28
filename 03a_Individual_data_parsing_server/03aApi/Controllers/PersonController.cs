@@ -18,7 +18,7 @@ public class PersonController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetPeople", )]
+    [HttpGet(Name = "GetPeople")]
     public IEnumerable<Person> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new Person

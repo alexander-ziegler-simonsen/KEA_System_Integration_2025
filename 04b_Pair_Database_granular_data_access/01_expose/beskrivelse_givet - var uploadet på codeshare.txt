@@ -121,17 +121,3 @@ $ db.order.deleteOne(
 --------------------- delete
 
 https://www.w3schools.com/mongodb/mongodb_mongosh_delete.php
-
---------------------- | ting jeg ikke har sagt - overhovedet | -----------------------------
-
-
-ville anbefale dig at install mongodb compass
-den kommer med mongosh indbygget og hver command man skriver, giver forslag på hvilke commands/værdier der faktisk findes (baseret på de første bokstaver man skriver) 
-
-
-en list af commands der findes i mongoDB (deres hjemmeside er lort, da den ikke kommer med virkelige eksempler.... det helt modsatte af hvad microsoft gør)
-https://www.mongodb.com/docs/atlas/reference/custom-role-actions/
-
-
-
-// pt er det kun "expressData" som findes som gateway/gatepoint

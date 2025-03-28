@@ -82,7 +82,7 @@ async function parseJson(input) {
         try {
 
             let data = JSON.parse(input);
-            
+
             let output = new Person(data.name, data.age, data.hobbies)
 
             resolve(output);
@@ -95,21 +95,15 @@ async function parseJson(input) {
     })
 }
 
-async function parseYaml(fullFilePath) {
+async function parseYaml(input) {
     return new Promise((resolve, reject) => {
         try {
-            // read from file
-            fs.readFile(fullFilePath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    reject(err);
-                }
 
-                let yamlParser = YAML.parse(data);
-
-                resolve(yamlParser);
-            })
+            let yamlParsedData = YAML.parse(input);
+            let output = new Person(yamlParsedData.name, yamlParsedData.age, yamlParsedData.hobbies);
+            resolve(output);
         }
+
         catch (error) {
             console.log("something went wrong in 'parseYaml'")
             console.error("error", error);
@@ -183,7 +177,8 @@ jsonPerson.displayPerson();
 
 console.log("------------------ yaml ------------------------");
 let yamlObj = await readFromFile("./data/me.yaml");
-
+const yamlPerson = await parseYaml(yamlObj);
+yamlPerson.displayPerson();
 
 console.log("------------------ csv ------------------------");
 let csvObj = await readFromFile("./data/me.csv");

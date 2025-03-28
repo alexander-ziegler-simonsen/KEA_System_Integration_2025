@@ -1,15 +1,15 @@
 version: '3.8'
 services:
   mongo: 
-    image: mongo:8.0
+    build: .
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: ${MON_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MON_PASSWORD}
     ports:
-      - 27017:27017
+      - 27018:27017
     volumes:
-      - C:/dockerLocalData:/data/db
-      # - mongodata:/data/db
+      #- C:/dockerLocalData:/data/db
+      - mongodata:/data/db
 volumes:
   mongodata:
     driver: local

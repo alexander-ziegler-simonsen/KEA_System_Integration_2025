@@ -4,44 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta>
-    <title>SSE</title>
+    <title>04a - SSE</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <h1>SSE</h1>
 
-    <p>status:</p>
-    <div id="server-sent_status"></div>
+    <div id="main_container" class="center">
+        <div id="head_container">
+            <img src="./logo.svg" alt="04a - SSE"> <!-- logo svg - made with chatGPT -->
+        </div>
 
-    <p>time:</p>
-    <div id="server-sent_time"></div>
+        <div id="content_container">
+            <p>status:</p>
+            <div id="server-sent_status"></div>
 
-    <script>
-        const serverSentStatusDiv = document.getElementById("server-sent_status");
-        const serverSentTimeDiv = document.getElementById("server-sent_time");
+            <p>time:</p>
+            <div id="server-sent_time"></div>
 
-        const eventSource = new EventSource("/synchronizetime"); // sådan her oplevere vi ikke cors problemer
+            <script>
+                const serverSentStatusDiv = document.getElementById("server-sent_status");
+                const serverSentTimeDiv = document.getElementById("server-sent_time");
 
-        eventSource.addEventListener("message", (event) => {
-            // console.log(event);
-            serverSentTimeDiv.textContent = event.data;
-        });
+                const eventSource = new EventSource("/synchronizetime"); // vi oplevere ikke cors problemer her ? // jeg skrev ikke hvorfor
 
-        eventSource.addEventListener("open", (event) => {
-            serverSentStatusDiv.textContent = "connected";
-        })
+                eventSource.addEventListener("message", (event) => {
+                    // console.log(event);
+                    serverSentTimeDiv.textContent = event.data;
+                });
 
-        eventSource.addEventListener("error", (event) => {
-            if (event.target.readyState === EventSource.CLOSED) {
-                serverSentStatusDiv.textContent = 'Connection was closed';
-            } else if (event.target.readyState === EventSource.CONNECTING) {
-                serverSentStatusDiv.textContent = 'Connecting...';
-            } else {
-                serverSentStatusDiv.textContent = 'Error';
-            }
-        });
+                eventSource.addEventListener("open", (event) => {
+                    serverSentStatusDiv.textContent = "connected";
+                })
 
-    </script>
+                eventSource.addEventListener("error", (event) => {
+                    if (event.target.readyState === EventSource.CLOSED) {
+                        serverSentStatusDiv.textContent = 'Connection was closed';
+                    } else if (event.target.readyState === EventSource.CONNECTING) {
+                        serverSentStatusDiv.textContent = 'Connecting...';
+                    } else {
+                        serverSentStatusDiv.textContent = 'Error';
+                    }
+                });
+
+            </script>
+        </div>
+        <div id="footer_container">
+            <p>this place is where you write your copyright rules - trademark since 1864.</p>
+        </div>
+    </div>
+
+
+
+
 </body>
 
 </html>

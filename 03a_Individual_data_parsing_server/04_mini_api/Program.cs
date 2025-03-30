@@ -5,18 +5,19 @@
 
 // app.Run();
 
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddDbContext<PersonDb>(opt => opt.UseInMemoryDatabase("PersonList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
-    config.DocumentName = "TodoAPI";
-    config.Title = "TodoAPI v1";
+    config.DocumentName = "PersonAPI";
+    config.Title = "PersonAPI v1";
     config.Version = "v1";
 });
 
@@ -28,57 +29,56 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUi(config =>
     {
-        config.DocumentTitle = "TodoAPI";
+        config.DocumentTitle = "PersonAPI";
         config.Path = "/swagger";
         config.DocumentPath = "/swagger/{documentName}/swagger.json";
         config.DocExpansion = "list";
     });
 }
 
-app.MapGet("/todoitems", async (TodoDb db) =>
-    await db.Todos.ToListAsync());
+// endpoints
 
-app.MapGet("/todoitems/complete", async (TodoDb db) =>
-    await db.Todos.Where(t => t.IsComplete).ToListAsync());
+app.MapGet("/persons", async (PersonDb db) => 
+    await db.Persons.ToListAsync());
 
-app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
-    await db.Todos.FindAsync(id)
-        is Todo todo
-            ? Results.Ok(todo)
-            : Results.NotFound());
+app.MapGet("/Persons/{name}", async (string name, PersonDb db) => 
+    await db.Persons.FindAsync(name)
+        is Person person ? Results.Ok(person) : Results.NotFound());
 
-app.MapPost("/todoitems", async (Todo todo, TodoDb db) =>
+app.MapPost("/Persons", async (Person person, PersonDb db) => 
+    {
+        db.Persons.Add(person);
+        await db.SaveChangesAsync();
+        return Results.Created($"/Persons/{person.Id}", person);
+    });
+
+app.MapPut("/persons/{id}", async (int id, Person inputPerson, PersonDb db) => 
 {
-    db.Todos.Add(todo);
-    await db.SaveChangesAsync();
+    var person = await db.Persons.FindAsync(id);
 
-    return Results.Created($"/todoitems/{todo.Id}", todo);
-});
+    if (person is null) return Results.NotFound();
 
-app.MapPut("/todoitems/{id}", async (int id, Todo inputTodo, TodoDb db) =>
-{
-    var todo = await db.Todos.FindAsync(id);
-
-    if (todo is null) return Results.NotFound();
-
-    todo.Name = inputTodo.Name;
-    todo.IsComplete = inputTodo.IsComplete;
+    person.Name = inputPerson.Name;
+    person.Age = inputPerson.Age;
+    person.Hobbies = inputPerson.Hobbies;
 
     await db.SaveChangesAsync();
 
     return Results.NoContent();
 });
 
-app.MapDelete("/todoitems/{id}", async (int id, TodoDb db) =>
+app.MapDelete("/persons/{id}", async (int id, PersonDb db) => 
 {
-    if (await db.Todos.FindAsync(id) is Todo todo)
+    if (await db.Persons.FindAsync(id) is Person person)
     {
-        db.Todos.Remove(todo);
+        db.Persons.Remove(person);
         await db.SaveChangesAsync();
         return Results.NoContent();
     }
 
     return Results.NotFound();
 });
+
+// start app
 
 app.Run();

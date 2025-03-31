@@ -1,9 +1,0 @@
-@_03aApi_HostAddress = http://localhost:5184
-
-GET {{_03aApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-GET {{_03aApi_HostAddress}}/GetPeople/
-Accept: application/json
-
-###

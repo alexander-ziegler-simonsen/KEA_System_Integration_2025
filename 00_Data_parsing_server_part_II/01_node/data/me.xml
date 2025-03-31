@@ -1,0 +1,9 @@
+<note>
+    <name>Kim</name>
+    <age>100</age>
+    <hobbies>
+        <hobby>coding</hobby>
+        <hobby>sleeping</hobby>
+        <hobby>eating</hobby>
+    </hobbies>
+</note>

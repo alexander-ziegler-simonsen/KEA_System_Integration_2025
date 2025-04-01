@@ -3,7 +3,7 @@ import csv from 'csv-parser'
 import XMLParser from "fast-xml-parser";
 import YAML from "yaml";
 
-import Person from "./Person";
+import Person from "./Person.js";
 
 class DataParser {
     constructor(){

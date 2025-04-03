@@ -1,0 +1,22 @@
+body {
+  padding: 0 auto;
+  padding: 1vw;
+  background-color: antiquewhite;
+}
+
+#videos {
+  display: flex;
+  gap: 2vw;
+  background-color: beige;
+}
+
+video {
+  background-color: grey;
+  width: 49vw;
+  min-width: 10vw;
+  height: auto;
+}
+
+#localVideo {
+
+}

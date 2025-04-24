@@ -1,7 +1,12 @@
 
+*.mp3
+*.mp4
+videos
+
 .vite
 .DS_store
 .idea
+uploads/
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,python

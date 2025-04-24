@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>forms</title>
+</head>
+
+<body>
+    <h2>basic form - node</h2>
+    <form action="http://localhost:8080/form" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="username">
+
+        <label for="password">password</label>
+        <input type="password" name="password" placeholder="password">
+
+        <input type="submit" value="send form data">
+    </form>
+    <h2>basic form - python</h2>
+    <form action="http://localhost:8000/form" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="username">
+
+        <label for="password">password</label>
+        <input type="password" name="password" placeholder="password">
+
+        <input type="submit" value="send form data">
+    </form>
+
+    <h2>file form - node</h2>
+    <!-- <form action="http://localhost:8080/fileform" method="POST" enctype="multipart/form-data" onsubmit="handleSubmit(event)"> -->
+    <form action="http://localhost:8080/fileform" method="POST" enctype="multipart/form-data">
+        <label for="file">file</label>
+        <!-- <input type="file" name="file" accept="image/*" multiple> -->
+        <!-- 'multiple' allows more files to be uploaded at one time -->
+        <input type="file" name="file" accept="image/*">
+
+        <label>description</label>
+        <input type="text" name="description" placeholder="description">
+
+        <input type="submit" value="send file">
+    </form>
+
+    <h2>file form - python</h2>
+    <!-- <form action="http://localhost:8000/fileform" method="POST" enctype="multipart/form-data" onsubmit="handleSubmit(event)"> -->
+    <form action="http://localhost:8000/fileform" method="POST" enctype="multipart/form-data">
+        <label for="file">file</label>
+        <!-- <input type="file" name="file" accept="image/*" multiple> -->
+        <!-- 'multiple' allows more files to be uploaded at one time -->
+        <input type="file" name="file" accept="image/*">
+
+        <label>description</label>
+        <input type="text" name="description" placeholder="description">
+
+        <input type="submit" value="send file">
+    </form>
+
+    <script>
+        const fileInput = document.querySelector('input[type="file"]');
+
+        fileInput.addEvventListener('change', (event) => {
+            //console.log(event)
+            const file = event.target.files[0];
+
+            const validTypes = ["image/png", "image/svg", "image/jpeg"];
+
+            if(!validTypes.includes(file.type)) {
+                alert("not a valid type");
+                fileInput.value = "";
+                return;
+            }
+
+            const maxSize = 1024 ; // 1024 bytes
+            if(file.size > maxSize) {
+                alert(`file too big. max size ${maxSize} bytes`);
+                fileInput.value = "";
+                return;
+            }
+        });
+
+        // function handleSubmit(event) {
+        //     event.preventDefault(); // Prevent the default form submission (redirect)
+        //     alert("Form submitted without redirect!");
+        //     // You can handle form data here or send it via AJAX
+        // }
+    </script>
+</body>
+
+</html>

@@ -3,6 +3,8 @@
 *.mp4
 videos
 
+outputs.txt
+
 .vite
 .DS_store
 .idea

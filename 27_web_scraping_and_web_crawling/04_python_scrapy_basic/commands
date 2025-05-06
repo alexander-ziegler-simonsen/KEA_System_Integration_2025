@@ -1,0 +1,14 @@
+uv  run scrapy startproject wikicrawler
+
+# maybe
+uv run scrapy genspider wikiPageSpider example.com
+
+----
+
+cd wikicrawler 
+
+uv run scrapy crawl WikiPageSpider -o output.json
+
+-----
+
+uv run scrapy shell 

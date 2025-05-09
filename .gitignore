@@ -3,7 +3,7 @@
 *.mp4
 videos
 
-outputs.txt
+db.json
 
 .vite
 .DS_store

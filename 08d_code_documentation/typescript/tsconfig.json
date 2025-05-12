@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "strictNullChecks": false
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./config_files/tsconfig.app.json"
+    },
+    {
+      "path": "./config_files/tsconfig.node.json"
+    }
+  ]
+}

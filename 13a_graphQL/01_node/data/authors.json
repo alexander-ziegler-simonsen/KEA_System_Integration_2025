@@ -1,0 +1,53 @@
+[
+  {
+    "id": "a1",
+    "name": "Clara Jenkins",
+    "books": [
+      { "id": "b1", "title": "The Time Traveler's Diary", "releaseYear": 2003, "authorId": "a1" },
+      { "id": "b3", "title": "The Forgotten Kingdom", "releaseYear": 2005, "authorId": "a1" },
+      { "id": "b15", "title": "Legends of the Rift", "releaseYear": 2000, "authorId": "a1" }
+    ]
+  },
+  {
+    "id": "a2",
+    "name": "Marcus Doyle",
+    "books": [
+      { "id": "b2", "title": "Through the Quantum Door", "releaseYear": 2010, "authorId": "a2" },
+      { "id": "b5", "title": "Chronicles of the Mind", "releaseYear": 2020, "authorId": "a2" },
+      { "id": "b14", "title": "The Signal Beyond", "releaseYear": 2021, "authorId": "a2" }
+    ]
+  },
+  {
+    "id": "a3",
+    "name": "Naomi Redfern",
+    "books": [
+      { "id": "b4", "title": "Empire of Glass", "releaseYear": 2017, "authorId": "a3" },
+      { "id": "b10", "title": "Voices in the Static", "releaseYear": 2019, "authorId": "a3" }
+    ]
+  },
+  {
+    "id": "a4",
+    "name": "Elias Kwon",
+    "books": [
+      { "id": "b6", "title": "Shadows Over Ilyria", "releaseYear": 2014, "authorId": "a4" },
+      { "id": "b12", "title": "Ashes of the Empire", "releaseYear": 2008, "authorId": "a4" }
+    ]
+  },
+  {
+    "id": "a5",
+    "name": "Sarah Lin",
+    "books": [
+      { "id": "b7", "title": "The Last Horizon", "releaseYear": 2011, "authorId": "a5" },
+      { "id": "b8", "title": "Seeds of Rebellion", "releaseYear": 2012, "authorId": "a5" },
+      { "id": "b13", "title": "Beneath the Frozen Sky", "releaseYear": 2002, "authorId": "a5" }
+    ]
+  },
+  {
+    "id": "a6",
+    "name": "Tomás Vega",
+    "books": [
+      { "id": "b9", "title": "Fragments of the Future", "releaseYear": 2015, "authorId": "a6" },
+      { "id": "b11", "title": "Aether's Edge", "releaseYear": 2016, "authorId": "a6" }
+    ]
+  }
+]

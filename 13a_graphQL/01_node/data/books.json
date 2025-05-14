@@ -1,0 +1,107 @@
+[
+  {
+    "id": "b1",
+    "title": "The Time Traveler's Diary",
+    "releaseYear": 2003,
+    "authorId": "a1",
+    "author": { "id": "a1", "name": "Clara Jenkins" }
+  },
+  {
+    "id": "b2",
+    "title": "Through the Quantum Door",
+    "releaseYear": 2010,
+    "authorId": "a2",
+    "author": { "id": "a2", "name": "Marcus Doyle" }
+  },
+  {
+    "id": "b3",
+    "title": "The Forgotten Kingdom",
+    "releaseYear": 2005,
+    "authorId": "a1",
+    "author": { "id": "a1", "name": "Clara Jenkins" }
+  },
+  {
+    "id": "b4",
+    "title": "Empire of Glass",
+    "releaseYear": 2017,
+    "authorId": "a3",
+    "author": { "id": "a3", "name": "Naomi Redfern" }
+  },
+  {
+    "id": "b5",
+    "title": "Chronicles of the Mind",
+    "releaseYear": 2020,
+    "authorId": "a2",
+    "author": { "id": "a2", "name": "Marcus Doyle" }
+  },
+  {
+    "id": "b6",
+    "title": "Shadows Over Ilyria",
+    "releaseYear": 2014,
+    "authorId": "a4",
+    "author": { "id": "a4", "name": "Elias Kwon" }
+  },
+  {
+    "id": "b7",
+    "title": "The Last Horizon",
+    "releaseYear": 2011,
+    "authorId": "a5",
+    "author": { "id": "a5", "name": "Sarah Lin" }
+  },
+  {
+    "id": "b8",
+    "title": "Seeds of Rebellion",
+    "releaseYear": 2012,
+    "authorId": "a5",
+    "author": { "id": "a5", "name": "Sarah Lin" }
+  },
+  {
+    "id": "b9",
+    "title": "Fragments of the Future",
+    "releaseYear": 2015,
+    "authorId": "a6",
+    "author": { "id": "a6", "name": "Tomás Vega" }
+  },
+  {
+    "id": "b10",
+    "title": "Voices in the Static",
+    "releaseYear": 2019,
+    "authorId": "a3",
+    "author": { "id": "a3", "name": "Naomi Redfern" }
+  },
+  {
+    "id": "b11",
+    "title": "Aether's Edge",
+    "releaseYear": 2016,
+    "authorId": "a6",
+    "author": { "id": "a6", "name": "Tomás Vega" }
+  },
+  {
+    "id": "b12",
+    "title": "Ashes of the Empire",
+    "releaseYear": 2008,
+    "authorId": "a4",
+    "author": { "id": "a4", "name": "Elias Kwon" }
+  },
+  {
+    "id": "b13",
+    "title": "Beneath the Frozen Sky",
+    "releaseYear": 2002,
+    "authorId": "a5",
+    "author": { "id": "a5", "name": "Sarah Lin" }
+  },
+  {
+    "id": "b14",
+    "title": "The Signal Beyond",
+    "releaseYear": 2021,
+    "authorId": "a2",
+    "author": { "id": "a2", "name": "Marcus Doyle" }
+  },
+  {
+    "id": "b15",
+    "title": "Legends of the Rift",
+    "releaseYear": 2000,
+    "authorId": "a1",
+    "author": { "id": "a1", "name": "Clara Jenkins" }
+  }
+]

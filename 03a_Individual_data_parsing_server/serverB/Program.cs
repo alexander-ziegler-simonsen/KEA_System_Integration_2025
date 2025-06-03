@@ -1,16 +1,11 @@
-// var builder = WebApplication.CreateBuilder(args);
-// var app = builder.Build();
-
-// app.MapGet("/", () => "Hello World!");
-
-// app.Run();
-
+using System.Xml.Serialization;
+using Csv;
+using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.EntityFrameworkCore;
 
+var serverA = "http://localhost:8080"; // remmember to point correctly
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<PersonDb>(opt => opt.UseInMemoryDatabase("PersonList"));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +17,8 @@ builder.Services.AddOpenApiDocument(config =>
 });
 
 var app = builder.Build();
+
+var httpClient = new HttpClient();
 
 // swagger
 if (app.Environment.IsDevelopment())
@@ -36,49 +33,172 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// endpoints
-
-app.MapGet("/persons", async (PersonDb db) => 
-    await db.Persons.ToListAsync());
-
-app.MapGet("/Persons/{name}", async (string name, PersonDb db) => 
-    await db.Persons.FindAsync(name)
-        is Person person ? Results.Ok(person) : Results.NotFound());
-
-app.MapPost("/Persons", async (Person person, PersonDb db) => 
-    {
-        db.Persons.Add(person);
-        await db.SaveChangesAsync();
-        return Results.Created($"/Persons/{person.Id}", person);
-    });
-
-app.MapPut("/persons/{id}", async (int id, Person inputPerson, PersonDb db) => 
+string ReadFromFile(string localFolderPath) 
 {
-    var person = await db.Persons.FindAsync(id);
+    string workingDirectory = Environment.CurrentDirectory;
 
-    if (person is null) return Results.NotFound();
+    TextReader read = new StreamReader(workingDirectory + localFolderPath);
+    string text = read.ReadToEnd();
 
-    person.Name = inputPerson.Name;
-    person.Age = inputPerson.Age;
-    person.Hobbies = inputPerson.Hobbies;
+    return text;
+}
 
-    await db.SaveChangesAsync();
+Person ParseXml(string input)
+{   
+    // TODO - fix this parser
+    Console.WriteLine("DEBUG---------", input);
+    Console.WriteLine(input);
 
-    return Results.NoContent();
-});
+    XmlSerializer Serializer = new XmlSerializer(typeof(Person), new XmlRootAttribute("note"));
+    TextReader Reader = new StringReader(input);
+    
+    // TODO - fix array "hobbies" not being read right
 
-app.MapDelete("/persons/{id}", async (int id, PersonDb db) => 
+    var output = (Person)Serializer.Deserialize(Reader);
+
+    Console.WriteLine("DEBUG---------", output);
+    Console.WriteLine(input);
+    
+    return output;
+}
+
+Person Parsejson(string input)
+{   
+    // serialisation
+    // var personJson = JsonConvert.SerializeObject(PersonObj);
+    
+    // Deserialise
+    var person = JsonConvert.DeserializeObject<Person>(input);
+    
+    return person;
+}
+
+Person ParseYaml(string input)
 {
-    if (await db.Persons.FindAsync(id) is Person person)
+    // TODO - fix this parser
+    Console.WriteLine("DEBUG---------", input);
+    Console.WriteLine(input);
+    
+    // the builder class, that handles all the logic
+    var deserializer = new DeserializerBuilder().Build();
+    Console.WriteLine("DEBUG---------", deserializer);
+    
+    // the Derserialize will try to typecast our string as a "Person" object.
+    var p = deserializer.Deserialize<Person>(input);
+    Console.WriteLine("DEBUG---------", p);
+
+    return p;
+}
+
+Person ParseCsv(string input)
+{
+    // https://github.com/stevehansen/csv/
+    
+    // it does it me here, that I need to be able to handle more than one "person" per file
+    // TODO - make every parser able to handle multiple "person" objects
+
+    List<Person> people = new List<Person>();
+
+    foreach (var line in CsvReader.ReadFromText(input))
     {
-        db.Persons.Remove(person);
-        await db.SaveChangesAsync();
-        return Results.NoContent();
+        Person tempP = new Person(line["name"], Convert.ToInt32(line["age"]), line["hobbies"].Split(";"));
+        people.Add(tempP);
     }
 
-    return Results.NotFound();
+    return people[0];
+}
+
+Person ParseTxt(string input)
+{
+    // we have to make this our self
+    
+    // each new line from the txt file, starts with "\r\n\"
+    // here I know there is only one element in the file, so the logic will be easier to implement 
+    
+    // "name= Value"
+    // key at start, "= " , followed by "value"
+    // one key/value pair per line
+
+    
+    string[] lines = input.Split("\r\n");
+
+    //              index   split on    get value
+    string pName = lines[0].Split("= ")[1];
+    int pAge = Convert.ToInt32(lines[1].Split("= ")[1]);
+    
+    
+    string tempHobbies = lines[2].Split("= ")[1];
+    //             string array    split on .... get string array as return
+    string[] pHobbies = tempHobbies.Split(", ");
+
+    Person output = new Person(pName, pAge, pHobbies);
+    
+    return output;
+}
+
+// endpoints
+app.MapGet("/json", async () =>
+{
+    string json = await httpClient.GetStringAsync($"{serverA}/json-internal");
+    Person person = Parsejson(json);
+    return Results.Json(person); 
 });
 
-// start app
+app.MapGet("/xml", async () =>
+{
+    string xml = await httpClient.GetStringAsync($"{serverA}/xml-internal");
+    Person person = ParseXml(xml);
+    return Results.Json(person);
+});
+
+app.MapGet("/yaml", async () =>
+{
+    string yaml = await httpClient.GetStringAsync($"{serverA}/yaml-internal");
+    Person person = ParseYaml(yaml);
+    return Results.Json(person);
+});
+
+app.MapGet("/txt", async () =>
+{
+    string txt = await httpClient.GetStringAsync($"{serverA}/txt-internal");
+    Person person = ParseTxt(txt);
+    return Results.Json(person);
+});
+
+app.MapGet("/csv", async () =>
+{
+    string csv = await httpClient.GetStringAsync($"{serverA}/csv-internal");
+    Person person = ParseCsv(csv);
+    return Results.Json(person);
+});
+
+app.MapGet("/xml-internal", async () => {
+    string xmlText = ReadFromFile("\\data\\me.xml"); 
+    return Results.Text(xmlText, "application/xml");
+
+});
+
+app.MapGet("/json-internal", async () => {
+    string jsonText = ReadFromFile("\\data\\me.json"); 
+    return Results.Text(jsonText, "application/json");
+});
+
+app.MapGet("/yaml-internal", async () => {
+    string yamlText = ReadFromFile("\\data\\me.yaml"); 
+    return Results.Text(yamlText, "text/yaml");
+
+});
+
+app.MapGet("/txt-internal", async () => {
+    string txtText = ReadFromFile("\\data\\me.txt"); 
+    return Results.Text(txtText, "text/plain");
+
+});
+
+app.MapGet("/csv-internal", async () => {
+    string csvText = ReadFromFile("\\data\\me.csv"); 
+    return Results.Text(csvText, "text/csv");
+
+});
 
 app.Run();

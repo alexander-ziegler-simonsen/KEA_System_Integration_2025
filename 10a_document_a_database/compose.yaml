@@ -1,0 +1,22 @@
+name: 10a_document_a_database
+services:
+  service-postgres:
+    build: 
+      context: .
+    image: my-postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: ${POST_USERNAME}
+      POSTGRES_PASSWORD: ${POST_PASSWORD}
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
+volumes:
+  postgresdata:
+    driver: local
+
+networks:
+  backend:

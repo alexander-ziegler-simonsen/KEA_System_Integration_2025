@@ -5,6 +5,7 @@ videos
 
 db.json
 
+.vscode/
 .vite
 .DS_store
 .idea

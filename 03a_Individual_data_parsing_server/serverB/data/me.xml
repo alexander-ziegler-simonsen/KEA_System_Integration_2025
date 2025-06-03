@@ -1,0 +1,9 @@
+<note>
+    <name>bob</name>
+    <age>200</age>
+    <hobbies>
+        <hobby>coding1</hobby>
+        <hobby>sleeping2</hobby>
+        <hobby>eating3</hobby>
+    </hobbies>
+</note>

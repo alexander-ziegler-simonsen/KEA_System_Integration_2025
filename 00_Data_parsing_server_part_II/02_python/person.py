@@ -1,5 +1,5 @@
 
-class Person:
+class Person():
     name: str
     age: int
     hobbies: list[str]

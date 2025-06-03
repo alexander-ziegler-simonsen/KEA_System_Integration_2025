@@ -1,10 +1,10 @@
 
-import csv
+import csv, json
 import xml.etree.ElementTree as ET # native libarry,  # https://docs.python.org/3/library/xml.etree.elementtree.html
 from ruamel.yaml import YAML
-from . import Person
+from person import Person
 
-class My_parser():
+class MyParser():
 
     def __init__(self):
         pass

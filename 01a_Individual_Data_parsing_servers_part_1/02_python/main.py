@@ -74,8 +74,6 @@ def ParseXml(input: str):
     return Person(root.find("name").text, root.find("age").text, hobbies)
 
 def ParseTxt(input: str):
-    print(input)
-
     lines = input.split("\n")
     pName = (lines[0].split("= "))
     pAge = (lines[1].split("= "))
@@ -115,7 +113,6 @@ print(csvPerson.print())
 
 # txt
 print("------------- txt parse ------------------------------")
-# TODO - setup data parser right on this one
 txtText = readFromFile("./data/me.txt")
 txtPerson: Person = ParseTxt(txtText)
 print(txtPerson.print())

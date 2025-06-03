@@ -115,6 +115,7 @@ print(csvPerson.print())
 
 # txt
 print("------------- txt parse ------------------------------")
+# TODO - setup data parser right on this one
 txtText = readFromFile("./data/me.txt")
 txtPerson: Person = ParseTxt(txtText)
 print(txtPerson.print())

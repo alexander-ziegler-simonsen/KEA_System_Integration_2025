@@ -162,10 +162,13 @@ let yamlObj = await readFromFile("./data/me.yaml");
 const yamlPerson = await parseYaml(yamlObj);
 yamlPerson.displayPerson();
 
-console.log("------------------ csv ------------------------");
+console.log("------------------ csv ------------------------ not working right now");
+
+// TODO - fix this csv problem
+
 //let csvObj = await readFromFile("./data/me.csv");
-const csvPerson = await parseCsv("./data/me.csv");
-csvPerson.displayPerson()
+//const csvPerson = await parseCsv("./data/me.csv");
+// csvPerson.displayPerson();
 
 
 console.log("------------------ txt ------------------------");

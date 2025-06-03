@@ -13,7 +13,7 @@ app.get("/expressData", (req, res) => {
 });
 
 app.get("/requestFastApiData", async (req, res) => {
-    const response = fetch("http://127.0.0.1:8000/fastapiData");
+    const response = await fetch("http://127.0.0.1:8000/fastapiData");
     const result = await response.json();
 
     res.send({data: result.data});

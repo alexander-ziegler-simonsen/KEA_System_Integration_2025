@@ -130,12 +130,9 @@ async function parseCsv(fullPath){
             fs.createReadStream(fullPath).pipe(
                 csv()
             ).on('data', (row) => {
-                tempRows.push(new Person(row[1].name, row[1].age, row[1].hobbies.split(";")));
-            }).on('end', () => {
-                // TODO - fix this program, so it can handle more than one item
-                let output = tempRows[0];
-    
-                resolve(output); // super vigtigt at "resolve" er inde i denne - fs.createReadStream - event lindser
+                tempRows.push(new Person(row.name, row.age, row.hobbies.split(";")));
+            }).on('end', () => { 
+                resolve(tempRows); // super vigtigt at "resolve" er inde i denne - fs.createReadStream - event listener
             })
         }
         catch(err) {
@@ -162,14 +159,10 @@ let yamlObj = await readFromFile("./data/me.yaml");
 const yamlPerson = await parseYaml(yamlObj);
 yamlPerson.displayPerson();
 
-console.log("------------------ csv ------------------------ not working right now");
-
-// TODO - fix this csv problem
-
-//let csvObj = await readFromFile("./data/me.csv");
-//const csvPerson = await parseCsv("./data/me.csv");
-// csvPerson.displayPerson();
-
+console.log("------------------ csv ------------------------");
+let csvObj = await readFromFile("./data/me.csv");
+const csvPersons = await parseCsv("./data/me.csv");
+for(var person of csvPersons) person.displayPerson();
 
 console.log("------------------ txt ------------------------");
 let txtObj = await readFromFile("./data/me.txt");

@@ -75,9 +75,13 @@ console.log("---------------------------");
 
 let namePromise = await setDisplayName();
 
-// TODO - everything under here ,should be run if the displayname was sat to "" 
+// TODO - everything under here ,should not be running if the displayname was sat to "" 
 console.log("---------------------------");
 console.log(`you should now be connected to the server as: ${displayname}`);
+console.log(`currenly you only get to write one single message... so make it count !`);
 console.log("every input written in the terminal will be send to the chat server and all user connected to it.");
 console.log("---------------------------");
+
+
+// TODO - this needs to be looped
 let chatPromise = await startChatting();

@@ -1,10 +1,9 @@
-from my_parser import my_parser, Person
+from parser import MyParser
+from person import Person
 from fastapi import FastAPI
 import requests
 
-dataParser = my_parser()
-
-
+dataParser = MyParser()
 
 app = FastAPI()
 

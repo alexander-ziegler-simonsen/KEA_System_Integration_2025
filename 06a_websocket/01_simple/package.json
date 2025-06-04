@@ -4,8 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start-s": "node server.js",
-    "start-c": "node client.js",
+    "server": "node server.js",
+    "client": "node client.js",
     "dev": "nodemon client.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

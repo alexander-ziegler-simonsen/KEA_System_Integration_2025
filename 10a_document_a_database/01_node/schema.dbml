@@ -1,0 +1,39 @@
+Table "Item" {
+  "id" int4 [pk, not null, increment]
+  "name" varchar [not null]
+  "description" varchar [not null]
+  "price" numeric [not null]
+  "fk_group_id" varchar [not null]
+}
+
+Table "Order" {
+  "id" int4 [pk, not null, increment]
+  "fk_user_id" varchar [not null]
+}
+
+Table "OrderItem" {
+  "id" int4 [pk, not null, increment]
+  "fk_item_id" varchar [not null]
+  "fk_order_id" varchar [not null]
+  "count" int4 [not null]
+  "price" numeric [not null]
+}
+
+Table "User" {
+  "id" int4 [pk, not null, increment]
+  "username" varchar [not null]
+  "password" varchar [not null]
+  "email" varchar [not null]
+  "phoneNumber" varchar [not null]
+  "address" varchar [not null]
+}
+
+Table "Storage" {
+  "id" int4 [pk, not null, increment]
+  "name" varchar [not null]
+}
+
+Table "ItemGroup" {
+  "id" int4 [pk, not null, increment]
+  "name" varchar [not null]
+}

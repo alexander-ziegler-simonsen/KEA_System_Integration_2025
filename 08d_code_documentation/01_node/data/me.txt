@@ -1,0 +1,3 @@
+name= Kim
+age= 100
+hobbies= coding, sleeping, eating

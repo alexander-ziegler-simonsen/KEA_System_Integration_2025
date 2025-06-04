@@ -32,8 +32,8 @@ export async function parseXml(input) {
 
             let data = tempXmlParser.parse(input);
 
-
-            const output = new Person(data["note"].name,
+            
+            const output = new Person(data.note.name,
                 data.note.age,
                 data.note.hobbies.hobby);
             resolve(output);

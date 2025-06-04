@@ -172,31 +172,31 @@ app.MapGet("/csv", async () =>
     return Results.Json(person);
 });
 
-app.MapGet("/xml-internal", async () => {
-    string xmlText = ReadFromFile("\\data\\me.xml"); 
+app.MapGet("/xml-internal", () => {
+    string xmlText = ReadFromFile("/data/me.xml"); 
     return Results.Text(xmlText, "application/xml");
 
 });
 
-app.MapGet("/json-internal", async () => {
-    string jsonText = ReadFromFile("\\data\\me.json"); 
+app.MapGet("/json-internal", () => {
+    string jsonText = ReadFromFile("/data/me.json"); 
     return Results.Text(jsonText, "application/json");
 });
 
-app.MapGet("/yaml-internal", async () => {
-    string yamlText = ReadFromFile("\\data\\me.yaml"); 
+app.MapGet("/yaml-internal", () => {
+    string yamlText = ReadFromFile("/data/me.yaml"); 
     return Results.Text(yamlText, "text/yaml");
 
 });
 
-app.MapGet("/txt-internal", async () => {
-    string txtText = ReadFromFile("\\data\\me.txt"); 
+app.MapGet("/txt-internal", () => {
+    string txtText = ReadFromFile("/data/me.txt"); 
     return Results.Text(txtText, "text/plain");
 
 });
 
-app.MapGet("/csv-internal", async () => {
-    string csvText = ReadFromFile("\\data\\me.csv"); 
+app.MapGet("/csv-internal", () => {
+    string csvText = ReadFromFile("/data/me.csv"); 
     return Results.Text(csvText, "text/csv");
 
 });
